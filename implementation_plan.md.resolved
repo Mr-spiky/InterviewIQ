@@ -1,0 +1,20 @@
+# Implementation Plan - Install Firecrawl MCP
+
+The goal is to install the Firecrawl MCP server and document the process so the agent can use it.
+
+## Proposed Changes
+
+### Documentation
+#### [NEW] [firecrawl_mcp.md](file:///d:/Shivam/web%20development/Project/Antigravity%20setup/docs/firecrawl_mcp.md)
+- Save the provided Firecrawl MCP documentation for future reference.
+
+### Configuration
+#### [MODIFY] `mcp_config.json` (location to be determined)
+- Add Firecrawl MCP configuration with `npx` command.
+- *Note*: User needs to provide API Key or I need to use a placeholder and ask user to fill it. The user said "agent will figure out how to how to actually install...". I'll check if I can find where to put the key. The docs say `env FIRECRAWL_API_KEY=...`.
+
+## Verification Plan
+
+### Manual Verification
+- Check if `mcp_config.json` is updated correctly.
+- User might need to restart/reload to see the new server.
