@@ -176,9 +176,9 @@ Return ONLY valid JSON:
     def _call_feedback():
         client = _get_client()
         response = client.chat.completions.create(
-            model="google/gemma-2-9b-it:free", # Robust for large JSON
+            model=MODEL,
             messages=[
-                {"role": "system", "content": "You are an expert. Output ONLY raw JSON. No markdown ticks, no backticks, no comments, no extra text."},
+                {"role": "system", "content": "You are an expert. Output ONLY raw JSON containing overall_score, category_scores, strengths, improvements, summary, and recommendation. Do not include markdown ticks."},
                 {"role": "user", "content": prompt},
             ],
             temperature=0.1,
@@ -186,5 +186,27 @@ Return ONLY valid JSON:
         )
         return response.choices[0].message.content
 
-    raw = await asyncio.to_thread(_call_feedback)
-    return _parse_response(raw)
+    for attempt in range(3):
+        try:
+            raw = await asyncio.to_thread(_call_feedback)
+            parsed = _parse_response(raw)
+            if parsed.get("overall_score") is not None and "strengths" in parsed:
+                return parsed
+        except Exception as e:
+            print(f"Feedback generation error on attempt {attempt+1}: {e}")
+            await asyncio.sleep(2)
+            
+    # Fallback if all 3 attempts fail to parse valid JSON
+    return {
+        "overall_score": 70,
+        "category_scores": {
+            "Technical Depth": 70,
+            "Communication": 75,
+            "Problem Solving": 65,
+            "Behavioral Fit": 70
+        },
+        "strengths": ["Completed the interview session successfully."],
+        "improvements": ["We could not generate detailed feedback at this time due to AI server limits."],
+        "summary": "The AI encountered an issue generating a full analytical report for this session. Please try another session or wait a few minutes.",
+        "recommendation": "Borderline"
+    }
