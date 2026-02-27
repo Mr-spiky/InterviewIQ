@@ -24,11 +24,12 @@ def _get_client() -> OpenAI:
     api_key = os.getenv("OPENROUTER_API_KEY")
     if not api_key:
         raise ValueError("OPENROUTER_API_KEY is not set in .env")
+    referer = os.getenv("ALLOWED_ORIGIN", "http://localhost:3000")
     return OpenAI(
         api_key=api_key,
         base_url=OPENROUTER_BASE,
         default_headers={
-            "HTTP-Referer": "http://localhost:3000",
+            "HTTP-Referer": referer,
             "X-Title": "InterviewIQ",
         },
     )
