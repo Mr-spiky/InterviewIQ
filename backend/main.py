@@ -13,7 +13,14 @@ _ENV_PATH = pathlib.Path(__file__).parent / ".env"
 load_dotenv(dotenv_path=_ENV_PATH, override=True)
 
 ALLOWED_ORIGIN = os.getenv("ALLOWED_ORIGIN", "http://localhost:3000")
+ALLOWED_ORIGINS = [
+    ALLOWED_ORIGIN,
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+]
 
+# Provide unique and clean list of origins
+ALLOWED_ORIGINS = list(set(ALLOWED_ORIGINS))
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -35,7 +42,7 @@ app = FastAPI(
 # CORS — allow Next.js frontend
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[ALLOWED_ORIGIN],
+    allow_origins=ALLOWED_ORIGINS,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
