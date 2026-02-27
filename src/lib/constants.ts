@@ -1,5 +1,5 @@
 import {
-    Upload, Brain, BarChart3, Zap, Target, Users, Building2,
+    Upload, Brain, BarChart3, Target, Users, Building2,
     GraduationCap, FileText, Mic, TrendingUp, Shield,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";

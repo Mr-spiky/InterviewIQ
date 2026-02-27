@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Brain, Menu, X, Zap, LogOut, User, LayoutDashboard } from "lucide-react";
 import { useAuth } from "@/lib/auth-context";
@@ -17,7 +16,6 @@ export default function Navbar() {
     const [scrolled, setScrolled] = useState(false);
     const [mobileOpen, setMobileOpen] = useState(false);
     const { user, logout } = useAuth();
-    const router = useRouter();
 
     useEffect(() => {
         const onScroll = () => setScrolled(window.scrollY > 20);

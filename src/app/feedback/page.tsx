@@ -38,6 +38,7 @@ function FeedbackContent() {
             .catch(() => feedbackApi.get(sessionId).then(setReport))
             .catch(e => setError(e.message))
             .finally(() => setLoading(false));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [sessionId]);
 
     if (loading) {

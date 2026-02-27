@@ -1,10 +1,9 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import AuthGuard from "@/components/ui/AuthGuard";
-import InterviewHeader from "@/components/interview/InterviewHeader";
 import CameraFeed from "@/components/interview/CameraFeed";
 import AIAvatar from "@/components/interview/AIAvatar";
 import { interviewApi, sessionsApi, type Session } from "@/lib/api";
@@ -46,6 +45,7 @@ function InterviewContent() {
         if (!transcript.trim()) return;
         sendMessage(transcript);
         setUserCaption(transcript);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const { startListening, stopListening, isListening, interimTranscript } = useSpeechInput(onUserFinishedSpeaking);
@@ -60,6 +60,7 @@ function InterviewContent() {
             })
             .catch(e => setError(e.message))
             .finally(() => setInitLoading(false));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [sessionId]);
 
     const kickoffInterview = async (sid: string) => {
@@ -103,7 +104,7 @@ function InterviewContent() {
             setQuestionCount(result.question_count);
             setAiCaption(result.message.content);
             speak(result.message.content);
-        } catch (e: unknown) {
+        } catch {
             setAiCaption("Failed to get response. Please try again.");
         } finally {
             setIsAiProcessing(false);
@@ -258,5 +259,4 @@ function InterviewContent() {
         </div>
     );
 }
-// Required to fix Next CSR boundary
-import { Suspense } from "react";
+

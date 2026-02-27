@@ -57,11 +57,14 @@ export function useSpeechOutput() {
 export function useSpeechInput(onFinalResult: (transcript: string) => void) {
     const [isListening, setIsListening] = useState(false);
     const [interimTranscript, setInterimTranscript] = useState("");
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const recognitionRef = useRef<any>(null);
 
     const startListening = useCallback(() => {
         const SpeechRecognition =
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             (window as any).SpeechRecognition ||
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             (window as any).webkitSpeechRecognition;
 
         if (!SpeechRecognition) {
@@ -81,6 +84,7 @@ export function useSpeechInput(onFinalResult: (transcript: string) => void) {
 
         let finalTranscriptStr = "";
 
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         recognition.onresult = (event: any) => {
             let interim = "";
             let final = "";
@@ -102,6 +106,7 @@ export function useSpeechInput(onFinalResult: (transcript: string) => void) {
             // Auto-stop on long pause? Could do that with a timeout.
         };
 
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         recognition.onerror = (e: any) => {
             console.warn("Speech recognition error:", e.error);
             if (e.error !== 'no-speech') {

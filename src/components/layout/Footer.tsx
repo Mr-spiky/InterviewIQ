@@ -50,7 +50,7 @@ export default function Footer() {
                             </span>
                         </Link>
                         <p className="text-white/60 text-sm leading-relaxed max-w-xs">
-                            The world's most advanced AI mock interviewer. Practice smarter, land your dream role faster.
+                            The world&apos;s most advanced AI mock interviewer. Practice smarter, land your dream role faster.
                         </p>
                         <div className="flex gap-3 mt-6">
                             {[Github, Twitter, Linkedin].map((Icon, i) => (
